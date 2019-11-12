@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import { GifSearch, Historical, Favorites } from '../containers';
+import { GifSearch, Historical, Favorites } from './index';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
