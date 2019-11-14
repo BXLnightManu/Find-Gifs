@@ -1,23 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from  'react-redux';
+import React from 'react';
+import { useSelector } from  'react-redux';
 
-export function requireAuth (ComposedComponent) {
-    class Authentication extends Component {
-        componentWillMount() {
-            if(!this.props.authenticated)
-                this.props.history.push("/signin");
-        }
-        componentWillUpdate() {
-            if(!this.props.authenticated)
-                this.props.history.push("/signin");
-        }
-        render() {
-            return <ComposedComponent {...this.props} />
-        }   
-    }
-    function  mapStateToProps(state) {
-        return { authenticated:  state.auth.token };
-    }
-
-    return connect(mapStateToProps)(Authentication);
+export const requireAuth = ComposedComponent => props => {
+    const authenticated = useSelector(state => state.auth.token);
+        
+    if(!authenticated) props.history.push("/signin");
+    
+    return <ComposedComponent {...props} />
 } 

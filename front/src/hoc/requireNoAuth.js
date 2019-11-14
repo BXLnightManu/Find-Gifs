@@ -1,22 +1,10 @@
-import React, { Component } from 'react';
-import { connect } from  'react-redux';
+import React from 'react';
+import { useSelector } from  'react-redux';
 
-export function requireNoAuth (ComposedComponent) {
-    class NoAuthentication extends Component {
-        componentWillMount() {
-            if(this.props.authenticated)
-                this.props.history.push("/gifsearch");
-        }
-        componentWillUpdate() {
-            if(this.props.authenticated)
-                this.props.history.push("/gifsearch");
-        }
-        render() {
-             return <ComposedComponent {...this.props} />
-        }
-    }
-    function  mapStateToProps(state) {
-        return { authenticated: state.auth.token };
-    }   
-    return connect(mapStateToProps)(NoAuthentication);
+export const requireNoAuth = ComposedComponent => props => {
+    const authenticated = useSelector(state => state.auth.token);
+        
+    if(authenticated) props.history.push("/gifsearch");
+    
+    return <ComposedComponent {...props} />
 }

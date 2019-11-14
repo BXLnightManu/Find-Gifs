@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import popUpReducer from './popUpReducer';
+import regReducer from './regReducer';
 
 const allReducers = combineReducers({
     auth: authReducer,
-    flash: popUpReducer
+    reg: regReducer
 });
 
 export default allReducers;

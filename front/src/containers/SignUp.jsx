@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from  'react-redux';
+import { useDispatch } from  'react-redux';
 import { TextField, Button } from '@material-ui/core';
 import { useStylesForSign } from '../components/styles'
 
-const SignUp = (props) =>  {
+export const SignUp = (props) =>  {
+    const dispatch = useDispatch();
     const classes = useStylesForSign();
     const [state, setState] = useState({
         email:      "",
@@ -60,9 +61,9 @@ const SignUp = (props) =>  {
             .then(res => res.json())
             .then(res =>
                 {
-                    props.dispatch(
+                    dispatch(
                         {
-                            type : "CREATE_SESSION",
+                            type : "REGISTER_USER",
                             message : res.flash
                         }
                     )
@@ -136,5 +137,3 @@ const SignUp = (props) =>  {
         </div>
     )
 }
-
-export default connect()(SignUp);

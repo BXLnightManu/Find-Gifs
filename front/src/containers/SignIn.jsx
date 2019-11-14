@@ -1,12 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from  'react-redux';
+import { useDispatch } from  'react-redux';
 import { TextField, Button } from '@material-ui/core';
 import { useStylesForSign } from '../components/styles';
 
-const SignIn = (props) => {
+export const SignIn = (props) => {
     const classes = useStylesForSign();
     const [state, setState] = useState({email:"", password:""});
+    const dispatch = useDispatch();
     const inputRefEmail = useRef(null);
     const inputRefPwd = useRef(null);
     const submitRef = useRef(null);
@@ -41,10 +42,9 @@ const SignIn = (props) => {
         fetch(path, CONFIG)
             .then(res => res.json())
             .then(res => {
-                props.dispatch(
+                dispatch(
                     {
                         type : "CREATE_SESSION",
-                        user: res.user,
                         token : res.token,
                         message : res.flash
                     }
@@ -89,5 +89,3 @@ const SignIn = (props) => {
         </div>
     )
 }
-
-export default connect()(SignIn);

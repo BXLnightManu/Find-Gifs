@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
+import clsx from 'clsx';
 import { SearchWrapper, useStylesForSearch } from './styles';
 import Icon from '@material-ui/core/Icon';
-import clsx from 'clsx';
 import { GifsRender } from './GifsRender';
 
 export const GifSearch = () => {
@@ -34,7 +34,7 @@ export const GifSearch = () => {
             headers: new Headers({"Content-Type": "application/json"})
         };
         const apiKey = "U5iZXqN1y4BLuojYABZK8cLd2cmjCtBS";
-        const path = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${state.query}&limit=6&offset=0&rating=G&lang=en"`;
+        const path = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${state.query}&limit=6&offset=0&rating=G&lang=en`;
         fetch(path, CONFIG)
             .then(res  => {
                 if (res)

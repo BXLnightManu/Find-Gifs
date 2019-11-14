@@ -1,14 +1,21 @@
 import  React, { useState, useEffect } from  'react';
-import {connect } from  'react-redux';
+import { useSelector } from  'react-redux';
 import  { Snackbar }  from  '@material-ui/core';
 
-const PopUp = (props) => {
+export const PopUp = () => {
     const [flash, setFlash] = useState("");
+    const messageSignIn = useSelector(state => state.auth.msg);
+    const messageSignUp = useSelector(state => state.reg.msg);
 
     useEffect(() => {
-        setFlash(props.flash);
-    }, [props.flash]);
-
+        if(messageSignIn) {
+            setFlash(messageSignIn);
+        }
+        if(messageSignUp) {
+            setFlash(messageSignUp);
+        }
+    },[messageSignIn,messageSignUp]);
+        
     const handleClose  = () => {
         setFlash("");
     };
@@ -19,16 +26,10 @@ const PopUp = (props) => {
                 vertical: 'bottom',
                 horizontal: 'center',
             }}
-            autoHideDuration={2000}
+            autoHideDuration={5000}
             onClose={handleClose}
             open={flash !== ""}
             message={flash}
         />
     )
 }
-
-function  mapStateToProps(state) {
-       return {flash:  state.flash.msg}
-};
-
-export default connect(mapStateToProps)(PopUp)

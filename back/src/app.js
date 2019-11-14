@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
+const JWTStrategy = require('passport-jwt').Strategy;
+const ExtractJWT = require('passport-jwt').ExtractJwt;
 
 // Configuration of the application server
 const { db } = require('./db/conf');
@@ -34,11 +36,32 @@ passport.use(new LocalStrategy({
         return done(null, user);
       });
     }
-  ));
+));
+
+// Json Web Token strategy
+const mySecret = "The village of Konoha";
+passport.use(new JWTStrategy({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey   : mySecret
+    },
+    function (jwtPayload, done) {
+        User.findOne({email: jwtPayload.email}, (err, user) => {
+            if (err) {
+                return done(err, false);
+            }
+            if (user) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+                // or you could create a new account
+            }
+        });
+    }
+));
 
 // Functionalities of the application (Implementation of the API part)
-const { registerAuthRoutes } = require('./auth');
-registerAuthRoutes(app);
+const { registerRoutes } = require('./routes');
+registerRoutes(app);
 
 // Launch of the node server and the connection to the database
 db()

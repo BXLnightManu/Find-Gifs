@@ -1,10 +1,7 @@
 const { connect } = require('mongoose');
+const { CONFIG, mongoDBPath } = require('./credentials');
 
-const CONFIG = {
-    db: "gifsFinder"
-}
-
-const URI = `mongodb://192.168.0.142:27017/${CONFIG.db}`;
+const URI = `${mongoDBPath}/${CONFIG.db}`;
 
 module.exports.db = () => {
     return connect(

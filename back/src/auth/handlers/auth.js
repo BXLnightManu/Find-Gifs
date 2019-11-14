@@ -48,7 +48,6 @@ function signIn(req, res) {
         if(err) return res.status(500).send(err.message)
         if (!user) return res.status(400).json({flash: info.message, redirect: false});
         const token = jwt.sign(JSON.stringify(user), mySecret);
-        console.log( `Welcome, ${user.firstname} ${user.lastname}!`);
         return res.json({user, token, flash: ` Welcome, ${user.firstname} ${user.lastname} !`, redirect: true});
     })(req, res)
 };
