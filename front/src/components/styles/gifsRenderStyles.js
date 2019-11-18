@@ -5,6 +5,11 @@ const gridHeight = 100;
 
 export const useStylesForRender = makeStyles(theme => ({
     root: {
+        display: "flex",
+        alignItems: "center",
+        flexFlow: "column nowrap"
+    },
+    container: {
         width: `${gridWidth}%`,
         height: `${gridHeight}%`,
         display: "flex",
@@ -29,7 +34,7 @@ export const useStylesForRender = makeStyles(theme => ({
         width: "100%",
         height: "100%"
     },
-    icon: {
-        color: "rgba(255, 255, 255, 0.54)"
-    }
+    margin: {
+        margin: theme.spacing(1),
+      }
 }))

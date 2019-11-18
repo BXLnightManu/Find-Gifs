@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from  'react-redux';
 import { TextField, Button } from '@material-ui/core';
-import { useStylesForSign } from './styles'
+import { useStylesForSign } from '../components/styles';
 
-export const SignIn = () => {
+export const SignIn = (props) => {
+    const dispatch = useDispatch();
     const classes = useStylesForSign();
     const [state, setState] = useState({email:"", password:""});
     const inputRefEmail = useRef(null);
@@ -39,17 +42,15 @@ export const SignIn = () => {
         const path = "/auth/signin";
         fetch(path, CONFIG)
             .then(res => res.json())
-            .then(
-                (res) => {
-                    this.props.dispatch(
-                        {
-                            type : "CREATE_SESSION",
-                            user: res.user,
-                            token : res.token,
-                            message : res.flash
-                        }
-                    )
-                    res.redirect && this.props.history.push("/gifsearch");
+            .then(res => {
+                dispatch(
+                    {
+                        type : "AUTH",
+                        token : res.token,
+                        message : res.flash
+                    }
+                )
+                res.redirect && props.history.push("/gifsearch");
                 }
             )
             .catch(err => {

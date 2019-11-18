@@ -1,0 +1,20 @@
+{
+    "name": "back-end-server",
+    "version": "1.0.0",
+    "description": "Back end server",
+    "main": "app.js",
+    "scripts": {
+        "start": "node ./src/app.js"
+    },
+    "author": "Emmanuel Nd.",
+    "dependencies": {
+        "bcrypt": "^3.0.6",
+        "body-parser": "^1.18.2",
+        "express": "^4.16.3",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^5.7.10",
+        "passport": "^0.4.0",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0"
+    }
+}

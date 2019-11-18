@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, AppBar, Tabs, Tab, Typography, Box } from '@material-ui/core';
 import { Link, Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import { GifSearch, Historical, Favorites } from '../containers';
+import { requireAuth } from '../hoc';
+import { GifSearch } from './index';
+import { Favorites } from '../containers';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -62,15 +64,13 @@ export function NavTabs() {
             aria-label="nav tabs example"
           >
           <LinkTab label="Search for new gifs" to="/gifsearch" />
-          <LinkTab label="Historical" to="/historical" />
           <LinkTab label="Favorites" to="/favorites" />
           </Tabs>
         </AppBar>
       </div>
       <Switch>
-        <Route exact path="/gifsearch" component={GifSearch} />
-        <Route exact path="/historical" component={Historical} />
-        <Route exact path="/favorites" component={Favorites} />
+        <Route exact path="/gifsearch" component={requireAuth(GifSearch)} />
+        <Route exact path="/favorites" component={requireAuth(Favorites)} />
       </Switch>
     </Router>
   );

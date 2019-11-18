@@ -1,19 +1,18 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from  'react-redux';
 import { TextField, Button } from '@material-ui/core';
-import { useStylesForSign } from './styles'
+import { useStylesForSign } from '../components/styles'
 
-export const SignUp = () =>  {
+export const SignUp = (props) =>  {
+    const dispatch = useDispatch();
     const classes = useStylesForSign();
     const [state, setState] = useState({
         email:      "",
         password:   "",
         passwordC:  "",
         firstname:  "",
-        lastname:   "",
-        flash:      "",
-        open:       false,
-        redirect:   false
+        lastname:   ""
     });
     const inputRefEmail = useRef(null);
     const inputRefPwd = useRef(null);
@@ -60,9 +59,16 @@ export const SignUp = () =>  {
         const path = "/auth/signup";
         fetch(path, CONFIG)
             .then(res => res.json())
-            .then(
-                res => setState({...state, flash: res.flash, open: res.open, redirect: res.redirect}),
-                err => setState({...state, flash: err.flash, open: err.open, redirect: err.redirect})
+            .then(res =>
+                {
+                    dispatch(
+                        {
+                            type : "AUTH",
+                            message : res.flash
+                        }
+                    )
+                    res.redirect && props.history.push("/signin");
+                }
             )
             .catch(err => {
                 console.error(err);
