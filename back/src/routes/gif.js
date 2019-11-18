@@ -4,10 +4,10 @@ const gifRouter = express.Router();
 const { gif } = require('../handlers');
 
 // LIST
-gifRouter.get("/", gif.getGifs);
+gifRouter.get("/", passport.authenticate('jwt', { session:  false }), gif.getGifs);
 
 // SAVE GIF
-gifRouter.post("/", passport.authenticate('jwt', { session:  false }), gif.postGifs);
+gifRouter.post("/", gif.postGifs);
 
 module.exports = {
     gifRouter

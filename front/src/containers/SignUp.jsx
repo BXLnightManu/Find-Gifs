@@ -63,7 +63,7 @@ export const SignUp = (props) =>  {
                 {
                     dispatch(
                         {
-                            type : "REGISTER_USER",
+                            type : "AUTH",
                             message : res.flash
                         }
                     )

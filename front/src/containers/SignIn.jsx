@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from  'react-redux';
@@ -5,9 +6,9 @@ import { TextField, Button } from '@material-ui/core';
 import { useStylesForSign } from '../components/styles';
 
 export const SignIn = (props) => {
+    const dispatch = useDispatch();
     const classes = useStylesForSign();
     const [state, setState] = useState({email:"", password:""});
-    const dispatch = useDispatch();
     const inputRefEmail = useRef(null);
     const inputRefPwd = useRef(null);
     const submitRef = useRef(null);
@@ -44,7 +45,7 @@ export const SignIn = (props) => {
             .then(res => {
                 dispatch(
                     {
-                        type : "CREATE_SESSION",
+                        type : "AUTH",
                         token : res.token,
                         message : res.flash
                     }

@@ -2,7 +2,7 @@ const passport = require('passport');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const saltRounds = 10;
-const { User } = require('../../db/models');
+const { User } = require('../db/models');
 const mySecret = "The village of Konoha";
 
 function signUp(req, res) {

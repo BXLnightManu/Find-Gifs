@@ -2,7 +2,11 @@ import React from 'react';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { SignIn, SignUp, PopUp, Favorites } from './containers';
 import { NavTabs } from './components';
+
+// HOC function that check if user is authenticated before giving access to requested component.
 import { requireAuth, requireNoAuth } from './hoc';
+
+// Material-UI: Calling javascript file containing the definition of styles to apply to App component.
 import { useStyles } from './styles/appStyles';
 
 function App() {

@@ -1,5 +1,8 @@
-const gif = require('./gif')
+const gif = require('./gif');
+const { signUp, signIn } = require('./auth');
 
 module.exports = {
-    gif
+    gif,
+    signUp,
+    signIn
 }

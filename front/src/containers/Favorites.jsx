@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 import { useSelector } from  'react-redux';
 import { GridList, GridListTile, GridListTileBar,ListSubheader, IconButton } from '@material-ui/core';
@@ -11,8 +12,7 @@ export const Favorites = () => {
 
     useEffect(() => {
         getGifs();
-        return;
-    });
+    }, []);
 
     const getGifs = () => {
         const CONFIG = {
@@ -23,9 +23,9 @@ export const Favorites = () => {
         fetch(path, CONFIG)
             .then(res  => {
                 if (res)
-                    return  res.json()
+                    return res.json()
                 else
-                    throw  new  Error(res.statusText)
+                    throw new Error(res.statusText)
             })
             .then(res  => {setState({...state, gifs: res})})
             .catch()
