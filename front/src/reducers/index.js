@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import authReducer from './authReducer';
-import regReducer from './regReducer';
+import renderReducer from './renderReducer.js';
 
 // Redux: Combination of reducers to create the global reducer.
 const allReducers = combineReducers({
     auth: authReducer,
-    reg: regReducer
+    render: renderReducer
 });
 
 export default allReducers;

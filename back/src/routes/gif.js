@@ -7,7 +7,10 @@ const { gif } = require('../handlers');
 gifRouter.get("/", passport.authenticate('jwt', { session:  false }), gif.getGifs);
 
 // SAVE GIF
-gifRouter.post("/", gif.postGifs);
+gifRouter.post("/", passport.authenticate('jwt', { session:  false }), gif.postGif);
+
+// DELETE GIF
+gifRouter.delete("/:giffyID", passport.authenticate('jwt', { session:  false }), gif.deleteGif);
 
 module.exports = {
     gifRouter

@@ -4,17 +4,17 @@ import  { Snackbar }  from  '@material-ui/core';
 
 export const PopUp = () => {
     const [flash, setFlash] = useState("");
-    const messageSignIn = useSelector(state => state.auth.msg);
-    const messageSignUp = useSelector(state => state.reg.msg);
+    const messageAuth = useSelector(state => state.auth.msg);
+    const messageRender = useSelector(state => state.render.msg);
 
     useEffect(() => {
-        if(messageSignIn) {
-            setFlash(messageSignIn);
+        if(messageAuth) {
+            setFlash(messageAuth);
         }
-        if(messageSignUp) {
-            setFlash(messageSignUp);
+        if(messageRender) {
+            setFlash(messageRender);
         }
-    },[messageSignIn,messageSignUp]);
+    },[messageAuth, messageRender]);
         
     const handleClose  = () => {
         setFlash("");
