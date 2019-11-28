@@ -64,7 +64,7 @@ export const SignUp = (props) =>  {
                     dispatch(
                         {
                             type : "AUTH",
-                            message : res.flash
+                            message : res.payload.message
                         }
                     )
                     res.redirect && props.history.push("/signin");

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import { SignIn, SignUp, PopUp, Favorites } from './containers';
 import { NavTabs } from './components';
@@ -10,6 +11,19 @@ import { requireAuth, requireNoAuth } from './hoc';
 import { useStyles } from './styles/appStyles';
 
 function App() {
+
+  const dispatch = useDispatch();
+  useEffect(()=> {
+    const token = localStorage.getItem('token');
+    if(token) {
+      const action = {
+        type: "AUTH",
+        token
+      }
+      dispatch(action);
+    }
+  }, [dispatch])
+
   const classes = useStyles();
   return (
     <div className={classes.root}>

@@ -43,13 +43,13 @@ export const SignIn = (props) => {
         fetch(path, CONFIG)
             .then(res => res.json())
             .then(res => {
-                dispatch(
-                    {
-                        type : "AUTH",
-                        token : res.token,
-                        message : res.flash
-                    }
-                )
+                localStorage.setItem("token", res.payload.token);
+                const action = {
+                    type : "AUTH",
+                    token: res.payload.token,
+                    message : res.payload.message
+                }
+                dispatch(action)
                 res.redirect && props.history.push("/gifsearch");
                 }
             )

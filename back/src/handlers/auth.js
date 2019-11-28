@@ -33,11 +33,11 @@ function signUp(req, res) {
             user
                 .save()
                 .then(user => {
-                    res.status(200).json({redirect: true, open: false, flash: `${user.firstname} ${user.lastname} has been signed up!`});
+                    res.status(200).json({redirect: true, open: false, payload: {ok: true, message: `${user.firstname} ${user.lastname} has been signed up!`}});
                     console.log(`${user.firstname} ${user.lastname} has been signed up!`);
                 })
                 .catch(err => {
-                    res.status(500).json({redirect: false, open: true, flash: err.message || "REGISTRATION FAILED" });
+                    res.status(500).json({redirect: false, open: true, payload: {ok: false, message: err.message || "REGISTRATION FAILED" }});
                     console.log(err.message);
                 })
     });
@@ -46,9 +46,9 @@ function signUp(req, res) {
 function signIn(req, res) {
     passport.authenticate('local',(err, user, info) => {
         if(err) return res.status(500).send(err.message)
-        if (!user) return res.status(400).json({flash: info.message, redirect: false});
-        const token = jwt.sign(JSON.stringify(user), mySecret);
-        return res.json({user, token, flash: ` Welcome, ${user.firstname} ${user.lastname} !`, redirect: true});
+        if (!user) return res.status(400).json({redirect: false, payload: {ok: false, message: info.message}});
+        const token = jwt.sign(JSON.stringify(user._id), mySecret);
+        return res.json({redirect: true, payload: {ok: true, token, message: ` Welcome, ${user.firstname} ${user.lastname} !`}});
     })(req, res)
 };
 
