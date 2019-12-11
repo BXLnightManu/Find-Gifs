@@ -1,8 +1,13 @@
 const gif = require('./gif');
-const { signUp, signIn } = require('./auth');
+const auth = require('./auth');
+const user = require('./user');
+const upload = require('./upload');
+const emailClient = require('./emailClient');
 
 module.exports = {
     gif,
-    signUp,
-    signIn
+    auth,
+    user,
+    upload,
+    emailClient
 }

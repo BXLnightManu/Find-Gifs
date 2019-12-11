@@ -27,11 +27,11 @@ passport.use(new LocalStrategy({
             return done(err);
         }
         if (!user) {
-            return done(null, false, { message: 'Incorrect email.' });
+            return done(null, false, { message: "Incorrect email." });
         }
         const hash = bcrypt.compareSync(password, user.password)
         if (!hash) {
-            return done(null, false, { message: 'Incorrect password.' });
+            return done(null, false, { message: "Incorrect password." });
         }
         return done(null, user);
       });
@@ -50,7 +50,7 @@ passport.use(new JWTStrategy({
                 return done(err, false);
             }
             if (user) {
-                return done(null, user);
+                return done(null, user._id);
             } else {
                 return done(null, false);
                 // or you could create a new account

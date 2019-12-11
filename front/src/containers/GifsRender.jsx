@@ -1,28 +1,45 @@
 import React from 'react';
 import { useSelector, useDispatch } from  'react-redux';
 import { GridList, GridListTile, GridListTileBar,ListSubheader, Fab } from '@material-ui/core';
-import {Favorite} from '@material-ui/icons';
-import { useStylesForRender } from './styles';
+import { Favorite } from '@material-ui/icons';
+import LinkIcon from '@material-ui/icons/Link';
+import { useStylesForRender, useStylesLinkIcon, ActionIconWrapper } from '../styles';
 
-export const GifsRender = ({gifsToRender}) => {
-    const classes = useStylesForRender();
+export const GifsRender = ({gifsToRender, query}) => {
     const token = useSelector(state => state.auth.token)
     const dispatch = useDispatch();
+
+    const classes = useStylesForRender();
+    const classesLinkIcon = useStylesLinkIcon();
+    
     const gifsAreReady = () => {
-        if(gifsToRender.length) {
-            const renderTitle = "Gifs list"
-            return renderTitle;
-        } else {
+        if(!gifsToRender.length) {
             const renderComment = "Gifs will be displayed here..."
             return renderComment;
         }
     }
-    let msgNumber = 1;
+
+    const copyLink = (e) => {
+        const linkLogo = e.currentTarget;
+        const tooltip = linkLogo.parentElement.firstChild;
+        const imageLink = linkLogo.parentElement.parentElement.parentElement.parentElement.firstChild;
+        const str = imageLink.getAttribute("src");
+        const el = document.createElement('textarea');
+        el.value = str;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        tooltip.removeAttribute("hidden")
+        setTimeout(()=> tooltip.setAttribute("hidden", ""), 3000);
+    }
+
     const addOnFavorites = (e) => {
         const button = e.currentTarget;
-        const gifTitle = button.parentElement.parentElement.firstChild.firstChild.textContent;
-        const gifImage = button.parentElement.parentElement.parentElement.firstChild.getAttribute("src");
-        const gifId = button.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+        const gifTitle = button.parentElement.parentElement.parentElement.firstChild.firstChild.textContent;
+        const gifImage = button.parentElement.parentElement.parentElement.parentElement.firstChild.getAttribute("src");
+        const gifId = button.parentElement.parentElement.parentElement.parentElement.parentElement.getAttribute("id");
+        const searchKey = query.toLowerCase();
         const CONFIG = {
             method:     "POST",
             headers: new Headers(
@@ -34,7 +51,8 @@ export const GifsRender = ({gifsToRender}) => {
             body: JSON.stringify({
                 giffyID:    gifId,
                 title:      gifTitle,
-                image:      gifImage
+                image:      gifImage,
+                searchKey
             })
         };
         const path = "/gifs";
@@ -49,18 +67,17 @@ export const GifsRender = ({gifsToRender}) => {
                 if(res.payload.ok) {
                     button.classList.add("Mui-disabled");
                     const action = {
-                        type: "SAVE",
-                        message : `Gif "${res.payload.value.title}" has been added to your favorites !`
+                        type: "MSG",
+                        message : `Gif "${res.payload.value}" has been added to your favorites !`
                     }
                     dispatch(action);
                 } else {
-                    if(res.payload.message.includes("E11000")) {
+                    if(res.payload.message.includes("Gif")) {
                         const action = {
-                            type: "SAVE",
-                            message : `${msgNumber}: Already in your favorites !`
+                            type: "MSG",
+                            message : res.payload.message
                         }
                         dispatch(action);
-                        msgNumber ++;
                     }
                 }
             })
@@ -76,11 +93,16 @@ export const GifsRender = ({gifsToRender}) => {
                         <GridListTile key={gif.giffyID} id={gif.giffyID}>
                             <img src={gif.image} alt={gif.title} className={classes.image} />
                             <GridListTileBar
+                                className={classes.favoritesIconR}
                                 title={gif.title}
                                 actionIcon={
-                                    <Fab size="small" color="secondary" aria-label="add" className={classes.margin} onClick={addOnFavorites}>
-                                        <Favorite />
-                                    </Fab>
+                                    <ActionIconWrapper>
+                                        <div className={classes.tooltip} hidden>Link added to clipboard!</div>
+                                        <LinkIcon onClick={copyLink} className={classes.linkIcon} classes={classesLinkIcon} color="primary" />
+                                        <Fab size="small" color="secondary" aria-label="add" className={classes.favoriteButton} onClick={addOnFavorites}>
+                                            <Favorite />
+                                        </Fab>
+                                    </ActionIconWrapper>
                                 }
                             />
                         </GridListTile>

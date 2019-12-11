@@ -1,2 +1,2 @@
-export { NavTabs } from './NavTab';
+export { Footer } from './Footer';
 export { GifSearch } from './GifsSearch';

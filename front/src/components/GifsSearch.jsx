@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
 import clsx from 'clsx';
-import { SearchWrapper, useStylesForSearch } from './styles';
+import { useStylesForSearch } from '../styles';
+import { BodyWrapper } from '../styles/appStyles';
 import Icon from '@material-ui/core/Icon';
-import { GifsRender } from './GifsRender';
+import { GifsRender } from '../containers';
 
 export const GifSearch = () => {
     const classes = useStylesForSearch();
@@ -23,8 +24,8 @@ export const GifSearch = () => {
     })
     
     const handleChange = (e) => {
-        const name = e.target.value;
-        setState({...state, query: name});
+        const query = e.target.value;
+        setState({...state, query});
     }
 
     const submitForSearch = (e) => {
@@ -75,7 +76,7 @@ export const GifSearch = () => {
     }
 
     return (
-        <SearchWrapper>
+        <BodyWrapper>
             <form ref={submitRef} className={classes.container}>
                 <TextField
                     id="standard-required"
@@ -94,10 +95,10 @@ export const GifSearch = () => {
                         style={{ fontSize: 30 }}
                         onClick={searchForMore}
                     >add_circle</Icon>
-                    <p style={{fontFamily: "Roboto", marginLeft: "-10%"}}>More</p>
+                    <p className={classes.more}>More</p>
                 </div>
             </form>
-            <GifsRender gifsToRender={reduce()} />
-        </SearchWrapper>
+            <GifsRender gifsToRender={reduce()} query={state.query} />
+        </BodyWrapper>
     )
 }
