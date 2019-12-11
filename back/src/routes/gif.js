@@ -1,16 +1,15 @@
 const express = require('express');
-const passport = require('passport');
 const gifRouter = express.Router();
 const { gif } = require('../handlers');
 
 // LIST
-gifRouter.get("/", passport.authenticate('jwt', { session:  false }), gif.getGifs);
+gifRouter.get("/", gif.getGifs);
 
 // SAVE GIF
-gifRouter.post("/", passport.authenticate('jwt', { session:  false }), gif.postGif);
+gifRouter.post("/", gif.postGif);
 
 // DELETE GIF
-gifRouter.delete("/:giffyID", passport.authenticate('jwt', { session:  false }), gif.deleteGif);
+gifRouter.delete("/:giffyID", gif.deleteGif);
 
 module.exports = {
     gifRouter

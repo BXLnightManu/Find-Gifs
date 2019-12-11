@@ -2,7 +2,7 @@
 export default function (state={}, action) {
     switch (action.type) {
         case "AUTH":
-            return {...state, token: action.token, msg: action.message};
+            return {...state, token: action.token};
         default:
             return state;
     }

@@ -1,52 +1,46 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from  'react-redux';
 import { TextField, Button } from '@material-ui/core';
-import { useStylesForSign } from '../components/styles'
+import { useStylesForSign } from '../styles';
 
-export const SignUp = (props) =>  {
+export const SignUp = ({history}) =>  {
     const dispatch = useDispatch();
     const classes = useStylesForSign();
-    const [state, setState] = useState({
+    const [inputs, setInputs] = useState({
         email:      "",
         password:   "",
         passwordC:  "",
         firstname:  "",
         lastname:   ""
     });
-    const inputRefEmail = useRef(null);
-    const inputRefPwd = useRef(null);
-    const inputRefPwdC = useRef(null);
-    const inputRefFName = useRef(null);
-    const inputRefLName = useRef(null);
-    const submitRef = useRef(null);
-
-    useEffect(() => {
-        const inputEmail = inputRefEmail.current;
-        const inputPwd = inputRefPwd.current;
-        const inputPwdC = inputRefPwdC.current;
-        const inputFName = inputRefFName.current;
-        const inputLName = inputRefLName.current;
-        const submit = submitRef.current;
-        inputEmail.addEventListener("input", handleChange);
-        inputPwd.addEventListener("input", handleChange);
-        inputPwdC.addEventListener("input", handleChange);
-        inputFName.addEventListener("input", handleChange);
-        inputLName.addEventListener("input", handleChange);
-        submit.addEventListener("submit", handleSubmit);
-            return function clean() {
-                inputEmail.removeEventListener("input", handleChange);
-                inputPwd.removeEventListener("input", handleChange);
-                inputPwdC.removeEventListener("input", handleChange);
-                inputFName.removeEventListener("input", handleChange);
-                inputLName.removeEventListener("input", handleChange);
-                submit.removeEventListener("submit", handleSubmit);
-            }
-    })
+    const [pwMessage, setPwMessage] = useState("");
+    const [cpwMessage, setCpwMessage] = useState("");
 
     const handleChange = (e) => {
         let name = e.target.name;
-        setState({...state, [name]: e.target.value});
+        let value = e.target.value;
+        setInputs({...inputs, [name]: value});
+        switch(name) {
+            case "password":
+                if(value.length<6) {
+                    setPwMessage("Password must be at least 6 characters.");
+                } else if (!RegExp(/[!@#$%^&*(),.?":{}|<>]/g).test(value)) {
+                    setPwMessage("Password must include at least 1 special character.");
+                } else {
+                    setPwMessage("");
+                }
+                break;
+            case "passwordC":
+                if(value!==inputs.password) {
+                    setCpwMessage("Passwords do not match.");
+                } else {
+                    setCpwMessage("");
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     const handleSubmit = (e) => {
@@ -54,20 +48,27 @@ export const SignUp = (props) =>  {
         const CONFIG = {
             method:     "POST",
             headers:    new Headers({"Content-Type": "Application/json"}),
-            body:       JSON.stringify(state)
+            body:       JSON.stringify(inputs)
         };
         const path = "/auth/signup";
+        if(inputs.password!==inputs.passwordC) {
+            const action = {
+                type: "MSG",
+                message: "Passwords do not match!"
+            }
+            dispatch(action);
+            return;
+        }
         fetch(path, CONFIG)
             .then(res => res.json())
             .then(res =>
                 {
-                    dispatch(
-                        {
-                            type : "AUTH",
-                            message : res.payload.message
-                        }
-                    )
-                    res.redirect && props.history.push("/signin");
+                    const action = {
+                        type : "MSG",
+                        message : res.payload.message
+                    }
+                    dispatch(action);
+                    res.redirect && history.push("/signin");
                 }
             )
             .catch(err => {
@@ -76,13 +77,15 @@ export const SignUp = (props) =>  {
     }
 
     return (
+        <>
+        <img className={classes.logo} src="./logo_transparent.png" alt="gifs-finder-logo" />
         <div className={classes.root}>
             <div className={classes.container}>
                 <Button className={classes.signUpButton} variant="contained" color="secondary" ><Link className={classes.linkButton} to="/signin">Sign In</Link></Button>
                 <h1>Sign Up</h1>
-                <form id="form" ref={submitRef}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <TextField
-                        ref={inputRefEmail}
+                        onChange={handleChange}
                         required
                         fullWidth
                         id="email"
@@ -91,8 +94,8 @@ export const SignUp = (props) =>  {
                         label="E-mail"
                         margin="normal"
                     />
-                    <TextField
-                        ref={inputRefPwd}
+                    <TextField className={classes.input}
+                        onChange={handleChange}
                         required
                         fullWidth
                         id="password"
@@ -100,19 +103,21 @@ export const SignUp = (props) =>  {
                         name="password"
                         label="Password"
                         margin="normal"
+                        helperText={`${pwMessage}`}
                     />
-                    <TextField
-                        ref={inputRefPwdC}
+                    <TextField className={classes.input}
+                        onChange={handleChange}
                         required
                         fullWidth
                         id="password-confirm"
                         type="password"
-                        name="password"
+                        name="passwordC"
                         label="Confirm password"
                         margin="normal"
+                        helperText={`${cpwMessage}`}
                     />
                     <TextField
-                        ref={inputRefFName}
+                        onChange={handleChange}
                         required
                         fullWidth
                         id="firstname"
@@ -122,7 +127,7 @@ export const SignUp = (props) =>  {
                         margin="normal"
                     />
                     <TextField
-                        ref={inputRefLName}
+                        onChange={handleChange}
                         required
                         fullWidth
                         id="lastname"
@@ -135,5 +140,6 @@ export const SignUp = (props) =>  {
                 </form>
             </div>
         </div>
+        </>
     )
 }

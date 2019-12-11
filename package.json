@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "start": "npx concurrently -kill-others \"cd ./front && npm run start\" \"cd ./back && npm run start\"",
+        "dev": "npx concurrently -kill-others \"cd ./front && npm run start\" \"cd ./back && npm run dev\""
+    },
+    "devDependencies": {
+        "concurrently": "^5.0.0"
+    }
+}

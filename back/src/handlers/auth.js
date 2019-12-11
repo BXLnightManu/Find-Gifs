@@ -29,12 +29,11 @@ function signUp(req, res) {
         .hash(password, saltRounds)
         .then(hash => {
             const { email, firstname, lastname } = req.body;
-            const user = new User({email, password: hash, firstname, lastname});
+            const user = new User({email, password: hash, firstname, lastname, userGroup: "user"});
             user
                 .save()
                 .then(user => {
                     res.status(200).json({redirect: true, open: false, payload: {ok: true, message: `${user.firstname} ${user.lastname} has been signed up!`}});
-                    console.log(`${user.firstname} ${user.lastname} has been signed up!`);
                 })
                 .catch(err => {
                     res.status(500).json({redirect: false, open: true, payload: {ok: false, message: err.message || "REGISTRATION FAILED" }});
@@ -48,7 +47,23 @@ function signIn(req, res) {
         if(err) return res.status(500).send(err.message)
         if (!user) return res.status(400).json({redirect: false, payload: {ok: false, message: info.message}});
         const token = jwt.sign(JSON.stringify(user._id), mySecret);
-        return res.json({redirect: true, payload: {ok: true, token, message: ` Welcome, ${user.firstname} ${user.lastname} !`}});
+        return res.json(
+            {
+                redirect: true,
+                payload:
+                {
+                    ok: true,
+                    token,
+                    lightUser:
+                    {
+                        firstname: user.firstname,
+                        lastname: user.lastname,
+                        email: user.email,
+                        imageProfile: user.imageProfile
+                    },
+                    message: ` Welcome, ${user.firstname} ;-)`
+                }
+            });
     })(req, res)
 };
 
