@@ -23,5 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # some files
-.exampleFull.json
-.exampleReduced.json
+/exampleFull.json
+/exampleReduced.json
