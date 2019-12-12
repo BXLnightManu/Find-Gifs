@@ -10,22 +10,49 @@ export const CheckWrapper = styled.div`
     display: flex;
     align-items: center;
     `
-
+const logoSizeXXL = window.screen.width*1/15;
+const logoSizeXL = window.screen.width*1/8;
+const logoSizeML = window.screen.width*1/15;
+const logoSizeM = window.screen.width*1/5;
+const logoSizeXS = window.screen.width*1/15;
+const logoSizeXXS = window.screen.width*1/3;
 export const useStylesForSign = makeStyles(theme => ({
     logo: {
         position: "absolute",
-        left: "42%",
+        left:"42%",
         top: "-2%",
-        height: "20%",
-        width: "auto",
+        width: `${logoSizeXXL}px`,
+        height: "auto",
         borderRadius: "5%",
-        "@media (max-width:420px)": {
+        "@media (max-width:414px)": {
+            width: `${logoSizeXXS}px`,
+            height: "auto",
             left: "32%",
             top: "10%"
         },
+        "@media (min-width:415px) and (max-width:767px)": {
+            width: `${logoSizeXS}px`,
+            height: "auto",
+            left: "45%",
+            top: "-1%"
+        },
         "@media (width:768px)": {
-            left: "36%",
-            top: "0%",
+            width: `${logoSizeM}px`,
+            height: "auto",
+            left: "40%",
+            top: "10%",
+        },
+        "@media (width:812px)": {
+            width: `${logoSizeML}px`,
+            height: "auto",
+            left: "45%",
+            top: "-3%",
+        },
+        "@media (width:1024px)": {
+            width: `${logoSizeXL}px`,
+            height: "auto",
+            left: "40%",
+            top: "5%",
         },
     },
     root: {

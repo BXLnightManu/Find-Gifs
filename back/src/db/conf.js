@@ -1,7 +1,7 @@
 const { connect } = require('mongoose');
-const { CONFIG, mongoDBPath } = require('./credentials');
+const { CONFIG } = require('./credentials');
 
-const URI = `${mongoDBPath}/${CONFIG.db}`;
+const URI = `mongodb+srv://${CONFIG.user}:${CONFIG.password}@cluster0-dkizu.mongodb.net/${CONFIG.db}?retryWrites=true&w=majority`;
 
 module.exports.db = () => {
     return connect(

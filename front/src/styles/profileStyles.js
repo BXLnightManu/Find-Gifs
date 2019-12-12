@@ -62,7 +62,7 @@ export const useStylesForProfile = makeStyles((theme)=> ({
     },
     createIconButton: {
         position: "absolute",
-        bottom: "65%",
+        bottom: "50%",
         left: "90%",
         height: "15%",
         width: "10%",
