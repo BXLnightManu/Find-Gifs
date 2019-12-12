@@ -47,23 +47,29 @@ export const useStylesForRender = makeStyles(theme => ({
             height: "20%",
             "& > div > div > button": {
                 backgroundColor: "rgba(0,0,0,0)",
-                marginLeft: "30%",
+                marginLeft: "10%",
                 "&:hover": {
                     backgroundColor: "rgba(0,0,0,0)",
                 },
-                "& > span ": {
+                "& > span > svg": {
                     width: "100%",
                     height: "auto",
                 }
             },
+            "& > div > div > svg": {
+                backgroundColor: "rgba(0,0,0,0)",
+                width: "40%",
+                height: "auto",
+
+            },
             "& > div > div": {
-                fontSize: "1vw",
-                width: "70%"
+                fontSize: "1vw"
             },
             "& > div": {
                 fontSize: "1vw",
                 margin: 0,
-                paddingLeft: "2px"
+                paddingLeft: "2px",
+                width:"60%"
             }
         }
     },
@@ -76,9 +82,15 @@ export const useStylesForRender = makeStyles(theme => ({
                 padding: 0,
                 width: "40px",
                 "& > span > svg": {
-                    width: "50%",
+                    width: "40%",
                     height: "auto",
                 }
+            },
+            "& > div > div > svg": {
+                backgroundColor: "rgba(0,0,0,0)",
+                width: "40%",
+                height: "auto",
+
             },
             "& > div > div": {
                 fontSize: "1vw",
@@ -87,7 +99,8 @@ export const useStylesForRender = makeStyles(theme => ({
             "& > div": {
                 fontSize: "1vw",
                 margin: 0,
-                paddingLeft: "2px"
+                paddingLeft: "2px",
+                width:"60%"
             }
         }
     },

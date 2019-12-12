@@ -25,6 +25,8 @@ export const SignUp = ({history}) =>  {
             case "password":
                 if(value.length<6) {
                     setPwMessage("Password must be at least 6 characters.");
+                } else if(!RegExp(/[0-9]/).test(value)) {
+                    setPwMessage("Password must include at least 1 number.");
                 } else if (!RegExp(/[!@#$%^&*(),.?":{}|<>]/g).test(value)) {
                     setPwMessage("Password must include at least 1 special character.");
                 } else {
@@ -52,22 +54,38 @@ export const SignUp = ({history}) =>  {
         };
         const path = "/auth/signup";
         if(inputs.password!==inputs.passwordC) {
-            const action = {
+            const actionMessage = {
                 type: "MSG",
                 message: "Passwords do not match!"
             }
-            dispatch(action);
+            dispatch(actionMessage);
             return;
+        } else if(!RegExp(/[!@#$%^&*(),.?":{}|<>]/g).test(inputs.password) || !RegExp(/[0-9]/g).test(inputs.password) || inputs.password.length<6) {
+            const actionMessage = {
+                type: "MSG",
+                message: "Your password isn't strong enough. Please fill the requirements."
+            }
+            dispatch(actionMessage);
+            return
         }
         fetch(path, CONFIG)
             .then(res => res.json())
             .then(res =>
                 {
-                    const action = {
+                    if(!res.payload.ok && res.payload.message.includes("E11000")) {
+                        const actionMessage = {
+                            type : "MSG",
+                            message : "This email already exist."
+                        }
+                        dispatch(actionMessage);
+                        res.redirect && history.push("/signin");
+                        return;
+                    }
+                    const actionMessage = {
                         type : "MSG",
                         message : res.payload.message
                     }
-                    dispatch(action);
+                    dispatch(actionMessage);
                     res.redirect && history.push("/signin");
                 }
             )

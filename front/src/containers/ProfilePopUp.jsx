@@ -24,16 +24,16 @@ export const ProfilePopUp = () => {
     return (
         <div className={classes.root}>
             <Grid className={classes.gridContainer} container item xs={12}>
-                <Grid className={classes.grid} item  xs={12}  sm={8}>
+                <Grid className={classes.grid} item  xs={8}  sm={8}>
                     <p>My Profile</p>
                 </Grid>
-                <Grid className={classes.grid} item  xs={12}  sm={4}>
+                <Grid className={classes.grid} item  xs={4}  sm={4}>
                     {setAvatar()}
                 </Grid>
             </Grid>
             <List>
                 <ListItem>
-                    <ListItemText primary="Email" secondary={userInfo.email}/>
+                    <ListItemText className={classes.text} primary="Email" secondary={userInfo.email}/>
                 </ListItem>
             </List>
         </div>
