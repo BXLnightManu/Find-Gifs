@@ -48,11 +48,11 @@ export const useStylesForSign = makeStyles(theme => ({
             left: "45%",
             top: "-3%",
         },
-        "@media (width:1024px)": {
+        "@media (min-width:1024px) and (max-width:1366px)": {
             width: `${logoSizeXL}px`,
             height: "auto",
-            left: "40%",
-            top: "5%",
+            left: "45%",
+            top: "-1%",
         },
     },
     root: {
