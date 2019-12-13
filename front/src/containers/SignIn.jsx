@@ -133,7 +133,7 @@ export const SignIn = ({ history }) => {
                                         'aria-label': 'secondary checkbox',
                                     }}
                                 />
-                                <p className={classes.remember}>Remeber me</p>
+                                <p className={classes.remember}>Remember me</p>
                             </CheckWrapper>
                             <Button variant="contained" color="primary" type="submit">Submit</Button>
                         </ButtonWrapper>
